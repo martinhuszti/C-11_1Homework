@@ -15,4 +15,16 @@ MyString operator[](int m) const;
 
 };
 
+
+operator +(MyString s1, MyString s2){
+}
+operator +=(MyString s, char c){
+}
+std::ostream& operator<<(std::ostream& os, MyString& s){
+        return os;
+}
+std::istream& operator>>(std::istream& is, MyString& s){
+        return is;
+}
+
 #endif
