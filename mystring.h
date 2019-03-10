@@ -1,30 +1,54 @@
 #ifndef MYSTRING_H
 #define MYSTRING_H
 #include <iostream>
+#include <cstring>
+
+class StringValue {
+private:
+char * str;
+size_t size;
+int ref_counter;
+
+public:
+StringValue(const char * s) : size{strlen(s)}, ref_counter{1}{
+								str = new char[size+1];
+								strcpy(str,s);
+}
+StringValue() : size{0},ref_counter{1}{
+								str = new char[1];
+								str[0] = 0;//'\0'
+}
+~StringValue(){
+								delete[] str;
+								ref_counter=0;
+								size =0;
+}
+char *writeString() const {
+								return str;
+}
+};
+
+//void operator=(){}
 
 class MyString {
-public:
-MyString();
-MyString(const char *);
-MyString(MyString const &m);
 
-void operator=(const MyString);
-void operator=(const char*);
-MyString& operator[](int m);
-MyString operator[](int m) const;
+private:
+StringValue * strvalue;
+public:
+const char * writeString() const {
+								return strvalue->writeString();
+}
+MyString() : strvalue{new StringValue}{
+}
+MyString(const char * chars){
+								strvalue = new StringValue{chars};
+}
 
 };
 
-
-operator +(MyString s1, MyString s2){
-}
-operator +=(MyString s, char c){
-}
-std::ostream& operator<<(std::ostream& os, MyString& s){
-        return os;
-}
-std::istream& operator>>(std::istream& is, MyString& s){
-        return is;
+std::ostream& operator<<(std::ostream& os, const MyString s){
+								os << s.writeString();
+								return os;
 }
 
 #endif
