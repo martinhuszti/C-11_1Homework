@@ -34,6 +34,18 @@ int main(int argc, char const *argv[]) {
         std::cout <<osszefuzve;
         testEnd();
 
+        testBegin("Stringhez karakter összefűzése +-al");
+        egy="ehhez fűzöm hozzá +";
+        osszefuzve = egy + "ezt";
+        std::cout << osszefuzve;
+        testEnd();
+
+        testBegin("Stringhez karakter összefűzése +=-vel");
+        egy="+= ehhez fűzöm hozzá +=";
+        egy += "ezt";
+        std::cout <<egy;
+        testEnd();
+
         std::cout << "\n\nTeszteknek vége";
 
 }

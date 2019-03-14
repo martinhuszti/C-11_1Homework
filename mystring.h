@@ -105,9 +105,13 @@ MyString& operator=(const MyString& ms){
 }
 
 MyString& operator+=(const MyString& other){
-								char temp[size()+other.size()+1];
-								strcpy (temp,getString() );
-								strcat(temp,other.getString());
+								if(other.size() == 0) return *this;
+
+								char temp[size()+other.size() +1];
+								temp[0]=0; //strcat miatt
+								strcat (temp,getString() );
+								strcat (temp,other.getString());
+
 								decRef();
 								strvalue = new StringValue{temp};
 
@@ -120,6 +124,36 @@ MyString operator+(const MyString& other){
 								MyString temp{*this};
 								temp+=other.strvalue->getStr();
 								return temp;
+}
+
+
+MyString& operator+=(const char* other){
+								if(strlen(other)==0) return *this;
+
+								char temp[size()+strlen(other) +1];
+								temp[0]=0; //strcat miatt
+								strcat (temp,getString() );
+								strcat (temp,other);
+
+								decRef();
+								strvalue = new StringValue{temp};
+
+								return *this;
+
+
+}
+
+MyString operator+(const char* other){
+								if(strlen(other)==0) return {*this};
+
+								char temp[size()+strlen(other) +1];
+								temp[0]=0; //strcat miatt
+								strcat (temp,getString() );
+								strcat (temp,other);
+
+								return {temp};
+
+
 }
 
 };
