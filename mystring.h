@@ -12,7 +12,8 @@ int ref_counter;
 public:
 StringValue(const char * s) : size{strlen(s)}, ref_counter{1}{
 								str = new char[size+1];
-								strcpy(str,s);
+								str[0]=0;
+								strcat(str,s);
 }
 StringValue() : size{0},ref_counter{1}{
 								str = new char[1];
@@ -20,6 +21,7 @@ StringValue() : size{0},ref_counter{1}{
 }
 ~StringValue(){
 								delete[] str;
+								str = nullptr;
 								ref_counter=0;
 								size =0;
 }
@@ -53,8 +55,8 @@ public:
 
 //kiíráshoz
 const char * getString() const {
-								if(strvalue!=nullptr)
-																return strvalue->getStr();
+
+								return strvalue->getStr();
 }
 //üres konstruktor //új karaktertömb kell
 MyString() : strvalue{new StringValue}{
@@ -79,7 +81,7 @@ size_t size() const
 }
 
 void decRef(){
-								if(strvalue==nullptr) return;
+
 								strvalue->decRef();
 								if(strvalue->getRef_count() == 0) {
 																delete strvalue;
@@ -99,21 +101,31 @@ char& operator[](int index){
 }
 
 MyString& operator=(const MyString& ms){
+								if(this == &ms) return *this;
+								decRef();
 								strvalue = ms.strvalue;
 								strvalue->incRef();
+								return *this;
+}
+
+MyString& operator=(const char * other){
+								decRef();
+								strvalue = new StringValue(other);
 								return *this;
 }
 
 MyString& operator+=(const MyString& other){
 								if(other.size() == 0) return *this;
 
-								char temp[size()+other.size() +1];
+								char temp[size()+other.size()+1];
 								temp[0]=0; //strcat miatt
 								strcat (temp,getString() );
 								strcat (temp,other.getString());
 
 								decRef();
 								strvalue = new StringValue{temp};
+
+
 
 								return *this;
 
@@ -122,7 +134,7 @@ MyString& operator+=(const MyString& other){
 
 MyString operator+(const MyString& other){
 								MyString temp{*this};
-								temp+=other.strvalue->getStr();
+								temp+=other;
 								return temp;
 }
 
@@ -130,7 +142,7 @@ MyString operator+(const MyString& other){
 MyString& operator+=(const char* other){
 								if(strlen(other)==0) return *this;
 
-								char temp[size()+strlen(other) +1];
+								char temp[size()+strlen(other)];
 								temp[0]=0; //strcat miatt
 								strcat (temp,getString() );
 								strcat (temp,other);

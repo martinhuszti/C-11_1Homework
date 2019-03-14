@@ -24,15 +24,20 @@ int main(int argc, char const *argv[]) {
 
         testBegin("Két String összefűzése +-al");
         MyString egy("egy+++"); MyString ketto("+++ketto");
-        MyString osszefuzve = egy + ketto;
+        MyString osszefuzve;
+        osszefuzve = egy;
+        osszefuzve+=egy;
         std::cout <<osszefuzve;
         testEnd();
 
         testBegin("Két String összefűzése +=-vel");
         egy="egy+++"; ketto="===ketto";
+
         osszefuzve = egy + ketto;
+
         std::cout <<osszefuzve;
         testEnd();
+
 
         testBegin("Stringhez karakter összefűzése +-al");
         egy="ehhez fűzöm hozzá +";
