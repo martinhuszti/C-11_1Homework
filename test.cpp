@@ -1,5 +1,8 @@
 #include "mystring.h"
 #include <iostream>
+#include <cstring>
+
+
 
 int szamlalo= 1;
 
@@ -72,13 +75,13 @@ int main(int argc, char const *argv[]) {
         egy[2] = 'z';
         std::cout << egy;
         testEnd();
-        
+
         testBegin("[] operátor const");
         egy="Ezt írom at\n";
         std::cout << egy[2];
         testEnd();
-        
-          testBegin("Hossz lekérdezése");
+
+        testBegin("Hossz lekérdezése");
         egy="Ezt írom atd";
         std::cout << strlen("Ezt írom atd");
         std::cout << " = ";

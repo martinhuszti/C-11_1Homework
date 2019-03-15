@@ -1,194 +1,180 @@
 #include <iostream>
 #include <cstring>
+#include "mystring.h"
 
-class StringValue {
-private:
-char * str;
-size_t size;
-int ref_counter;
 
-public:
-StringValue(const char * s) : size{strlen(s)}, ref_counter{1}{
-								str = new char[size+1];
-								str[0]=0;
-								strcat(str,s);
+StringValue::StringValue(const char * s) : size{strlen(s)}, ref_counter{1}{
+        str = new char[size+1];
+        str[0]=0;
+        strcat(str,s);
 }
-StringValue() : size{0},ref_counter{1}{
-								str = new char[1];
-								str[0] = 0;  //'\0'
+StringValue::StringValue() : size{0},ref_counter{1}{
+        str = new char[1];
+        str[0] = 0;          //'\0'
 }
-~StringValue(){
-								delete[] str;
-								str = nullptr;
-								ref_counter=0;
-								size =0;
+StringValue::~StringValue(){
+        delete[] str;
+        str = nullptr;
+        ref_counter=0;
+        size =0;
 }
 
-char *getStr() const {
-								return str;
+char* StringValue::getStr() const {
+        return str;
 }
-size_t getSize() const {
-								return size;
+size_t StringValue::getSize() const {
+        return size;
 }
-int getRef_count() const {
-								return ref_counter;
+int StringValue::getRef_count() const {
+        return ref_counter;
 }
-void incRef(){
-								ref_counter++;
+void StringValue::incRef(){
+        ref_counter++;
 }
-void decRef(){
-								ref_counter--;
+void StringValue::decRef(){
+        ref_counter--;
 }
-};
 
 
 
-class MyString {
-
-private:
-StringValue * strvalue;
-public:
-//hossz lekérdezése
-size_t lenght() const
+size_t MyString::lenght() const
 {
-								return strvalue->getSize();
+        return strvalue->getSize();
 }
 
-void decRef(){
-								if(strvalue == nullptr) return;
-								strvalue->decRef();
-								if(strvalue->getRef_count() == 0) {
-																delete strvalue;
-																strvalue = nullptr;
-								}
+void MyString::decRef(){
+        if(strvalue == nullptr) return;
+        strvalue->decRef();
+        if(strvalue->getRef_count() == 0) {
+                delete strvalue;
+                strvalue = nullptr;
+        }
 }
 
 //kiíráshoz
-const char * getString() const {
+const char * MyString::getString() const {
 
-								return strvalue->getStr();
+        return strvalue->getStr();
 }
 //üres konstruktor
-MyString() : strvalue{new StringValue}{
+MyString::MyString() : strvalue{new StringValue} {
 }
 //értékadó konstruktor
-MyString(const char * chars){
-								strvalue = new StringValue{chars};
+MyString::MyString(const char * chars){
+        strvalue = new StringValue{chars};
 }
 //másoló konstruktor
-MyString(const MyString &other){
-								this->strvalue = other.strvalue;
-								strvalue->incRef();
+MyString::MyString(const MyString &other){
+        this->strvalue = other.strvalue;
+        strvalue->incRef();
 }
 //move konstruktor
-MyString( MyString &&other) noexcept {
-								std::cout<<"\nmove konsturktor meghivva\n";
-								strvalue = other.strvalue;
-								other.strvalue=nullptr;
+MyString::MyString( MyString &&other) noexcept {
+        std::cout<<"\nmove konsturktor meghivva\n";
+        strvalue = other.strvalue;
+        other.strvalue=nullptr;
 }
 //move értékadás
-MyString& operator=(MyString &&other) noexcept {
-								std::cout<<"\nmove értékadás meghívva\n";
-								decRef();
-								this->strvalue = other.strvalue;
-								other.strvalue= nullptr;
-								return *this;
+MyString& MyString::operator=(MyString &&other) noexcept {
+        std::cout<<"\nmove értékadás meghívva\n";
+        decRef();
+        this->strvalue = other.strvalue;
+        other.strvalue= nullptr;
+        return *this;
 }
 //destruktor
-~MyString(){
-								this->decRef();
+MyString::~MyString(){
+        this->decRef();
 }
-const char operator[](size_t index) const {
-	if(index > lenght()-1) throw std::out_of_range("rossz indexelés");
+const char MyString::operator[](size_t index) const {
+        if(index > lenght()-1) throw std::out_of_range("rossz indexelés");
 
-	return getString()[index];
-	}
+        return getString()[index];
+}
 
 //copy-on-write
-char& operator[](size_t index){
-								if(index>lenght()-1) throw std::out_of_range("rossz indexelés");
-								if(strvalue->getRef_count()<=1) {
-																return strvalue->getStr()[index];
-								}
-								auto tempStr = getString();
-								decRef();
-								strvalue = new StringValue{tempStr};
-								return strvalue->getStr()[index];
+char& MyString::operator[](size_t index){
+        if(index>lenght()-1) throw std::out_of_range("rossz indexelés");
+        if(strvalue->getRef_count()<=1) {
+                return strvalue->getStr()[index];
+        }
+        auto tempStr = getString();
+        decRef();
+        strvalue = new StringValue{tempStr};
+        return strvalue->getStr()[index];
 }
 
 //értékadó op string
-MyString& operator=(const MyString& ms){
-								if(this == &ms) return *this;
-								decRef();
-								strvalue = ms.strvalue;
-								strvalue->incRef();
-								return *this;
+MyString& MyString::operator=(const MyString& ms){
+        if(this == &ms) return *this;
+        decRef();
+        strvalue = ms.strvalue;
+        strvalue->incRef();
+        return *this;
 }
 
 //érkékadó op chartömbbel
-MyString& operator=(const char * other){
-								decRef();
-								strvalue = new StringValue(other);
-								return *this;
+MyString& MyString::operator=(const char * other){
+        decRef();
+        strvalue = new StringValue(other);
+        return *this;
 }
 //összefűz stringgel
-MyString& operator+=(const MyString& other){
-								if(other.lenght() == 0) return *this;
+MyString& MyString::operator+=(const MyString& other){
+        if(other.lenght() == 0) return *this;
 
-								char temp[lenght()+other.lenght()+1];
-								temp[0]=0; //strcat miatt
-								strcat (temp,getString() );
-								strcat (temp,other.getString());
+        char temp[lenght()+other.lenght()+1];
+        temp[0]=0;         //strcat miatt
+        strcat (temp,getString() );
+        strcat (temp,other.getString());
 
-								decRef();
-								strvalue = new StringValue{temp};
-								return *this;
+        decRef();
+        strvalue = new StringValue{temp};
+        return *this;
 
 }
 //összefűz chartömbbel
-MyString& operator+=(const char* other){
-								if(strlen(other)==0) return *this;
+MyString& MyString::operator+=(const char* other){
+        if(strlen(other)==0) return *this;
 
-								char temp[lenght()+strlen(other)+1];
-								temp[0]=0; //strcat miatt
-								strcat (temp,getString() );
-								strcat (temp,other);
+        char temp[lenght()+strlen(other)+1];
+        temp[0]=0;         //strcat miatt
+        strcat (temp,getString() );
+        strcat (temp,other);
 
-								decRef();
-								strvalue = new StringValue{temp};
-								return *this;
+        decRef();
+        strvalue = new StringValue{temp};
+        return *this;
 
 }
 //összead sztringel
-MyString operator+(const MyString& other){
-								MyString temp{*this};
-								temp+=other;
-								return temp;
+MyString MyString::operator+(const MyString& other){
+        MyString temp{*this};
+        temp+=other;
+        return temp;
 }
 //összead charral
-MyString operator+(const char* other){
-								if(strlen(other)==0) return {*this};
+MyString MyString::operator+(const char* other){
+        if(strlen(other)==0) return {*this};
 
-								char temp[lenght()+strlen(other) +1];
-								temp[0]=0; //strcat miatt
-								strcat (temp,getString() );
-								strcat (temp,other);
+        char temp[lenght()+strlen(other) +1];
+        temp[0]=0;         //strcat miatt
+        strcat (temp,getString() );
+        strcat (temp,other);
 
-								return {temp};
+        return {temp};
 }
-
-};
 
 
 //kiír opertor
 std::ostream& operator<<(std::ostream& os, const MyString& s){
-								os << s.getString();
-								return os;
+        os << s.getString();
+        return os;
 }
 //beolvas operator
 std::istream& operator>>(std::istream& is, MyString& s){
-								char tmp[512];
-								is >> tmp;
-								s=tmp;
-								return is;
+        char tmp[512];
+        is >> tmp;
+        s=tmp;
+        return is;
 }
