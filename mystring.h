@@ -35,10 +35,10 @@ class MyString {
 private:
 StringValue * strvalue;
 
+void decRef();
+
 public:
 size_t lenght() const;
-
-void decRef();
 
 //kiíráshoz
 const char * getString() const;
