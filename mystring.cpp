@@ -149,6 +149,7 @@ MyString& MyString::operator+=(const char* other){
 }
 //összead sztringel
 MyString MyString::operator+(const MyString& other){
+        if(other.lenght() == 0) return {*this};
         MyString temp{*this};
         temp+=other;
         return temp;
@@ -157,12 +158,10 @@ MyString MyString::operator+(const MyString& other){
 MyString MyString::operator+(const char* other){
         if(strlen(other)==0) return {*this};
 
-        char temp[lenght()+strlen(other) +1];
-        temp[0]=0;         //strcat miatt
-        strcat (temp,getString() );
-        strcat (temp,other);
+        MyString temp;
+        temp += other;
 
-        return {temp};
+        return temp;
 }
 
 

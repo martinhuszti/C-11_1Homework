@@ -42,7 +42,7 @@ int main(int argc, char const *argv[]) {
 
         //karakter start
         testBegin("Stringhez karakter összefűzése +=-vel");
-        egy="+= ehhez fűzöm hozzá +=";
+        egy="ehhez fűzöm hozzá +=";
         egy += "ezt";
         std::cout <<egy;
         testEnd();
@@ -59,13 +59,6 @@ int main(int argc, char const *argv[]) {
 
         testBegin("Move értékadás");
         osszefuzve =MyString("hi");
-        testEnd();
-
-        testBegin("Beolvasás és kiírás");
-        std::cout<< "Adj meg egy stringet:";
-        MyString olvas;
-        std::cin >> olvas;
-        std::cout << olvas << '\n';
         testEnd();
 
         testBegin("[] operátor copy-on-write");
@@ -87,7 +80,15 @@ int main(int argc, char const *argv[]) {
         std::cout << " = ";
         std::cout << egy.lenght();
         testEnd();
+        
+        testBegin("Beolvasás és kiírás");
+        std::cout<< "Adj meg egy stringet:";
+        MyString olvas;
+        std::cin >> olvas;
+        std::cout << olvas << '\n';
+        testEnd();
 
+   
 
         std::cout << "\n\nMinden teszt sikeresen lefutott";
         return 0;
