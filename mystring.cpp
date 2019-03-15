@@ -37,7 +37,7 @@ void StringValue::decRef(){
 
 
 
-size_t MyString::lenght() const
+const size_t MyString::lenght() const
 {
         return strvalue->getSize();
 }
@@ -123,13 +123,14 @@ MyString& MyString::operator=(const char * other){
 MyString& MyString::operator+=(const MyString& other){
         if(other.lenght() == 0) return *this;
 
-        char temp[lenght()+other.lenght()+1];
+        char *temp = new char[lenght()+other.lenght()+1];
         temp[0]=0;         //strcat miatt
         strcat (temp,getString() );
         strcat (temp,other.getString());
 
         decRef();
         strvalue = new StringValue{temp};
+        delete[] temp;
         return *this;
 
 }
@@ -137,13 +138,14 @@ MyString& MyString::operator+=(const MyString& other){
 MyString& MyString::operator+=(const char* other){
         if(strlen(other)==0) return *this;
 
-        char temp[lenght()+strlen(other)+1];
+        char *temp = new char[lenght()+strlen(other)+1];
         temp[0]=0;         //strcat miatt
         strcat (temp,getString() );
         strcat (temp,other);
 
         decRef();
         strvalue = new StringValue{temp};
+        delete[] temp;
         return *this;
 
 }

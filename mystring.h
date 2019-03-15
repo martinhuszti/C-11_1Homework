@@ -38,7 +38,7 @@ StringValue * strvalue;
 void decRef();
 
 public:
-size_t lenght() const;
+const size_t lenght() const;
 
 //kiíráshoz
 const char * getString() const;
