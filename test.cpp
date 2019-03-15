@@ -5,13 +5,18 @@ int szamlalo= 1;
 
 void testBegin(const MyString& s){
         std::cout<<">>" << szamlalo <<". teszteset: ";
-        std::cout << s <<"<<" << std::endl;
+        std::cout << s <<"<<\n\n";
 }
 void testEnd(){
-        std::cout << std::endl<<szamlalo++ <<". teszt vége" << std::endl
-                  << "----------------------------" << std::endl<<std::endl;
+        std::cout  << "\n\n----------------------------" <<
+         std::endl<< szamlalo++ <<". teszt vége" << std::endl;
+                 
 }
 int main(int argc, char const *argv[]) {
+	
+		MyString egy("egy+++"); MyString ketto("+++ketto");
+        MyString osszefuzve;
+        
         testBegin("String Létrehozása üresen");
         MyString ures;
         std::cout<< ures;
@@ -21,35 +26,34 @@ int main(int argc, char const *argv[]) {
         MyString inited("Én vagyok az inicializat String");
         std::cout << inited;
         testEnd();
-
+        
+        testBegin("Két String összefűzése +=-al");
+        egy += ketto;
+        std::cout <<egy;
+        testEnd();
+        
         testBegin("Két String összefűzése +-al");
-        MyString egy("egy+++"); MyString ketto("+++ketto");
-        MyString osszefuzve;
-        osszefuzve = egy;
-        osszefuzve+=egy;
+        egy + ketto;
         std::cout <<osszefuzve;
         testEnd();
 
-        testBegin("Két String összefűzése +=-vel");
-        egy="egy+++"; ketto="===ketto";
-
-        osszefuzve = egy + ketto;
-
-        std::cout <<osszefuzve;
-        testEnd();
-
-
-        testBegin("Stringhez karakter összefűzése +-al");
-        egy="ehhez fűzöm hozzá +";
-        osszefuzve = egy + "ezt";
+        //karakter start
+		testBegin("Stringhez karakter összefűzése +-al");
+        osszefuzve =  std::move(egy);
         std::cout << osszefuzve;
         testEnd();
-
+        
         testBegin("Stringhez karakter összefűzése +=-vel");
         egy="+= ehhez fűzöm hozzá +=";
         egy += "ezt";
         std::cout <<egy;
         testEnd();
+        //karakter vege
+
+        testBegin("Move konstruktor");
+        std::cout << (MyString("xxxhelloxxx"));
+        testEnd();
+
 
         std::cout << "\n\nTeszteknek vége";
 
