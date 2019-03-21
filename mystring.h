@@ -3,94 +3,94 @@
 #include <cstdlib>
 #include <iostream>
 
+    class StringValue {
+      private:
+        char * str;
+        size_t size;
+        int ref_counter;
 
-class StringValue {
-private:
-char * str;
-size_t size;
-int ref_counter;
+      public:
+        StringValue(const char * );
 
-public:
-StringValue(const char *);
+        StringValue();
 
-StringValue();
+        ~StringValue();
 
-~StringValue();
+        char * getStr() const;
 
-char *getStr() const;
+        size_t getSize() const;
 
-size_t getSize() const;
+        int getRef_count() const;
 
-int getRef_count() const;
+        void incRef();
 
-void incRef();
+        void decRef();
 
-void decRef();
-
-};
-
-
+    };
 
 class MyString {
-private:
-StringValue * strvalue;
+  private:
+    StringValue *strvalue;
 
-void decRef();
+    void decRef();
 
-public:
-const size_t lenght() const;
+  public:
+    const size_t lenght() const;
 
-//kiíráshoz
-const char * getString() const;
+    //kiíráshoz
+    const char * getString() const;
 
-//üres konstruktor
-MyString();
+    //üres konstruktor
+    MyString();
 
-//értékadó konstruktor
-MyString(const char * );
+    //értékadó konstruktor
+    MyString(const char * );
 
-//másoló konstruktor
-MyString(const MyString &);
+    //másoló konstruktor
+    MyString(const MyString & );
 
-//move konstruktor
-MyString( MyString &&) noexcept;
+    //move konstruktor
+    MyString(MyString && ) noexcept;
 
-//move értékadás
-MyString& operator=(MyString &&) noexcept;
+    //move értékadás
+    MyString & operator = (MyString && ) noexcept;
 
-//destruktor
-~MyString();
+    //destruktor
+    ~MyString();
 
-//indexelő operator
-const char operator[](size_t ) const;
+    //indexelő operator
+    const char operator[](size_t) const;
 
-//copy-on-write
-char& operator[](size_t );
+    //copy-on-write
+    char & operator[](size_t);
 
-//értékadó op string
-MyString& operator=(const MyString& );
+    //értékadó op string
+    MyString & operator = (const MyString & );
 
-//érkékadó op chartömbbel
-MyString& operator=(const char * );
+    /*
+     * //érkékadó op chartömbbel
+    MyString & operator = (const char * );
+    * */
 
-//összefűz stringgel
-MyString& operator+=(const MyString& );
+    //összefűz stringgel
+    MyString & operator += (const MyString & );
 
-//összefűz chartömbbel
-MyString& operator+=(const char* );
 
-//összead sztringel
-MyString operator+(const MyString& );
+    //összefűz chartömbbel
+    MyString & operator += (const char * );
 
-//összead charral
-MyString operator+(const char* );
+    //összead sztringel
+    MyString operator + (const MyString & );
+
+    //összead charral
+    MyString operator + (const char * );
 
 };
 
-
 //kiír opertor
-std::ostream& operator<<(std::ostream&, const MyString&);
+std::ostream & operator << (std::ostream & ,
+    const MyString & );
 //beolvas operator
-std::istream& operator>>(std::istream&, MyString&);
+std::istream & operator >> (std::istream & , MyString & );
 
 #endif

@@ -1,6 +1,7 @@
-#include "mystring.h"
 #include <iostream>
 #include <cstring>
+#include "mystring.h"
+
 
 
 
@@ -80,7 +81,7 @@ int main(int argc, char const *argv[]) {
         std::cout << " = ";
         std::cout << egy.lenght();
         testEnd();
-        
+
         testBegin("Beolvasás és kiírás");
         std::cout<< "Adj meg egy stringet:";
         MyString olvas;
@@ -88,7 +89,7 @@ int main(int argc, char const *argv[]) {
         std::cout << olvas << '\n';
         testEnd();
 
-   
+
 
         std::cout << "\n\nMinden teszt sikeresen lefutott";
         return 0;
