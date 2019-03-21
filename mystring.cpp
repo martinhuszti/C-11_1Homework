@@ -167,8 +167,8 @@ std::ostream & operator << (std::ostream & os, const MyString & s) {
 }
 //beolvas operator
 std::istream & operator >> (std::istream & is, MyString & s) {
-	auto c = new char; 
-	s=0;
+	auto c = new char('\0');
+	s = c;
 	while(is >> c) 
 	s+=c;
     return is;
