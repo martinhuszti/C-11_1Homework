@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstring>
-#include <string>
 #include "mystring.h"
 
 StringValue::StringValue(const char * s)
@@ -48,18 +47,14 @@ void MyString::decRef() {
 
 //kiíráshoz
 const char * MyString::getString() const {
-
     return strvalue -> getStr();
 }
 //üres konstruktor
-MyString::MyString(): strvalue {
-    new StringValue
-} {}
+MyString::MyString(): strvalue { new StringValue } {
+}
 //értékadó konstruktor
 MyString::MyString(const char *chars) {
-    strvalue = new StringValue {
-        chars
-    };
+	strvalue = new StringValue {chars};
 }
 //másoló konstruktor
 MyString::MyString(const MyString & other) {
@@ -85,15 +80,16 @@ MyString & MyString::operator = (MyString && other) noexcept {
 MyString::~MyString() {
     this -> decRef();
 }
+//indexelő operator
 const char MyString::operator[](size_t index) const {
     if (index >= lenght()) throw std::out_of_range("rossz indexelés");
 
     return getString()[index];
 }
-
 //copy-on-write
 char & MyString::operator[](size_t index) {
     if (index >= lenght()) throw std::out_of_range("rossz indexelés");
+
     if (strvalue -> getRef_count() <= 1) {
         return strvalue -> getStr()[index];
     }
@@ -104,19 +100,17 @@ char & MyString::operator[](size_t index) {
     };
     return strvalue -> getStr()[index];
 }
-
 //értékadó op string
 MyString & MyString::operator = (const MyString & ms) {
     if (this == & ms) return *this;
+
     decRef();
     strvalue = ms.strvalue;
     strvalue -> incRef();
     return *this;
 }
-
 //összefűz stringgel
 MyString & MyString::operator += (const MyString & other) {
-    if (other.lenght() == 0) return *this;
 
     char * temp = new char[lenght() + other.lenght() + 1];
     strcpy(temp, getString());
@@ -130,7 +124,6 @@ MyString & MyString::operator += (const MyString & other) {
 }
 //összefűz chartömbbel
 MyString & MyString::operator += (const char * other) {
-    if (strlen(other) == 0) return *this;
 
     char * temp = new char[lenght() + strlen(other) + 1];
     strcpy(temp, getString());
@@ -147,7 +140,7 @@ MyString MyString::operator + (const MyString & other) {
 
     MyString temp {* this};
     temp += other;
-    
+
     return temp;
 }
 //összead charral
@@ -159,7 +152,6 @@ MyString MyString::operator + (const char * other) {
 
     return temp;
 }
-
 //kiír opertor
 std::ostream & operator << (std::ostream & os, const MyString & s) {
     os << s.getString();
@@ -167,9 +159,9 @@ std::ostream & operator << (std::ostream & os, const MyString & s) {
 }
 //beolvas operator
 std::istream & operator >> (std::istream & is, MyString & s) {
-	auto c = new char('\0');
-	s = c;
-	while(is >> c) 
-	s+=c;
+	char c;
+	s = "";
+	while (is.get(c)) { s+=&c; }
+
     return is;
 }

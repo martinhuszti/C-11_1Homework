@@ -66,12 +66,7 @@ class MyString {
 
     //értékadó op string
     MyString & operator = (const MyString & );
-
-    /*
-     * //érkékadó op chartömbbel
-    MyString & operator = (const char * );
-    * */
-
+    
     //összefűz stringgel
     MyString & operator += (const MyString & );
 
@@ -88,8 +83,7 @@ class MyString {
 };
 
 //kiír opertor
-std::ostream & operator << (std::ostream & ,
-    const MyString & );
+std::ostream & operator << (std::ostream & , const MyString & );
 //beolvas operator
 std::istream & operator >> (std::istream & , MyString & );
 

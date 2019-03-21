@@ -2,9 +2,6 @@
 #include <cstring>
 #include "mystring.h"
 
-
-
-
 int szamlalo= 1;
 
 void testBegin(const MyString& s){
