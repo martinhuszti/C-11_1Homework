@@ -76,7 +76,7 @@ int main(int argc, char const *argv[]) {
         egy="Ezt írom atd";
         std::cout << strlen("Ezt írom atd");
         std::cout << " = ";
-        std::cout << egy.lenght();
+        std::cout << egy.length();
         testEnd();
 
         testBegin("Beolvasás és kiírás");

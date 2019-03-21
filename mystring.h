@@ -35,7 +35,7 @@ class MyString {
     void decRef();
 
   public:
-    const size_t lenght() const;
+    const size_t length() const;
 
     //kiíráshoz
     const char * getString() const;
@@ -66,7 +66,7 @@ class MyString {
 
     //értékadó op string
     MyString & operator = (const MyString & );
-    
+
     //összefűz stringgel
     MyString & operator += (const MyString & );
 

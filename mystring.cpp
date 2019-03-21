@@ -12,6 +12,7 @@ StringValue::StringValue()
     str = new char[1];
     str[0] = 0;
 }
+
 StringValue::~StringValue() {
     delete[] str;
 }
@@ -32,7 +33,7 @@ void StringValue::decRef() {
     ref_counter--;
 }
 
-const size_t MyString::lenght() const {
+const size_t MyString::length() const {
     return strvalue -> getSize();
 }
 
@@ -82,13 +83,13 @@ MyString::~MyString() {
 }
 //indexelő operator
 const char MyString::operator[](size_t index) const {
-    if (index >= lenght()) throw std::out_of_range("rossz indexelés");
+    if (index >= length()) throw std::out_of_range("rossz indexelés");
 
     return getString()[index];
 }
 //copy-on-write
 char & MyString::operator[](size_t index) {
-    if (index >= lenght()) throw std::out_of_range("rossz indexelés");
+    if (index >= length()) throw std::out_of_range("rossz indexelés");
 
     if (strvalue -> getRef_count() <= 1) {
         return strvalue -> getStr()[index];
@@ -112,7 +113,7 @@ MyString & MyString::operator = (const MyString & ms) {
 //összefűz stringgel
 MyString & MyString::operator += (const MyString & other) {
 
-    char * temp = new char[lenght() + other.lenght() + 1];
+    char * temp = new char[length() + other.length() + 1];
     strcpy(temp, getString());
     strcat(temp, other.getString());
 
@@ -125,7 +126,7 @@ MyString & MyString::operator += (const MyString & other) {
 //összefűz chartömbbel
 MyString & MyString::operator += (const char * other) {
 
-    char * temp = new char[lenght() + strlen(other) + 1];
+    char * temp = new char[length() + strlen(other) + 1];
     strcpy(temp, getString());
     strcat(temp, other);
 
@@ -136,7 +137,7 @@ MyString & MyString::operator += (const char * other) {
 }
 //összead sztringel
 MyString MyString::operator + (const MyString & other) {
-    if (other.lenght() == 0) return {* this};
+    if (other.length() == 0) return {* this};
 
     MyString temp {* this};
     temp += other;
