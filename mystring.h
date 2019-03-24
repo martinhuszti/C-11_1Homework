@@ -69,7 +69,9 @@ class MyString {
 
     //összefűz stringgel
     MyString & operator += (const MyString & );
-
+    
+    //összefűz karakterrel
+    MyString & operator += (const char );
 
     //összefűz chartömbbel
     MyString & operator += (const char * );

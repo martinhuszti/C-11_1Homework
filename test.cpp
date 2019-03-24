@@ -83,7 +83,7 @@ int main(int argc, char const *argv[]) {
         std::cout<< "Adj meg egy stringet:";
         MyString olvas;
         std::cin >> olvas;
-        std::cout << olvas << '\n';
+        std::cout <<"A beolvasott String: " << olvas << '\n';
         testEnd();
 
 
