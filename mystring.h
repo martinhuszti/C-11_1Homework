@@ -3,90 +3,114 @@
 #include <cstdlib>
 #include <iostream>
 
-    class StringValue {
-      private:
-        char * str;
-        size_t size;
-        int ref_counter;
 
-      public:
-        StringValue(const char * );
+class Proxy;
 
-        StringValue();
+class StringValue {
+private:
+char * str;
+size_t size;
+int ref_counter;
 
-        ~StringValue();
+public:
+StringValue(const char * );
 
-        char * getStr() const;
+StringValue();
 
-        size_t getSize() const;
+~StringValue();
 
-        int getRef_count() const;
+char * getStr() const;
 
-        void incRef();
+size_t getSize() const;
 
-        void decRef();
+int getRef_count() const;
 
-    };
+void incRef();
 
-class MyString {
-  private:
-    StringValue *strvalue;
-
-    void decRef();
-
-  public:
-    const size_t length() const;
-
-    //kiíráshoz
-    const char * getString() const;
-
-    //üres konstruktor
-    MyString();
-
-    //értékadó konstruktor
-    MyString(const char * );
-
-    //másoló konstruktor
-    MyString(const MyString & );
-
-    //move konstruktor
-    MyString(MyString && ) noexcept;
-
-    //move értékadás
-    MyString & operator = (MyString && ) noexcept;
-
-    //destruktor
-    ~MyString();
-
-    //indexelő operator
-    const char operator[](size_t) const;
-
-    //copy-on-write
-    char & operator[](size_t);
-
-    //értékadó op string
-    MyString & operator = (const MyString & );
-
-    //összefűz stringgel
-    MyString & operator += (const MyString & );
-    
-    //összefűz karakterrel
-    MyString & operator += (const char );
-
-    //összefűz chartömbbel
-    MyString & operator += (const char * );
-
-    //összead sztringel
-    MyString operator + (const MyString & );
-
-    //összead charral
-    MyString operator + (const char * );
+void decRef();
 
 };
 
+class MyString {
+private:
+StringValue *strvalue;
+
+void decRef();
+
+public:
+const size_t length() const;
+
+//kiíráshoz
+char * getString() const;
+
+//üres konstruktor
+MyString();
+
+//értékadó konstruktor
+MyString(const char * );
+
+//másoló konstruktor
+MyString(const MyString & );
+
+//move konstruktor
+MyString(MyString && ) noexcept;
+
+//move értékadás
+MyString & operator = (MyString && ) noexcept;
+
+//destruktor
+~MyString();
+
+Proxy& operator[](size_t);
+
+
+//indexelő operator
+const char operator[](size_t) const;
+
+/* //old
+    //copy-on-write
+    char & operator[](size_t);*/
+
+//értékadó op string
+MyString & operator = (const MyString & );
+
+//összefűz stringgel
+MyString & operator += (const MyString & );
+
+//összefűz karakterrel
+MyString & operator += (const char );
+
+//összefűz chartömbbel
+MyString & operator += (const char * );
+
+//összead sztringel
+MyString operator + (const MyString & );
+
+//összead charral
+MyString operator + (const char * );
+
+};
+
+class Proxy {
+private:
+MyString* ms;
+size_t index;
+
+public:
+Proxy(MyString*, size_t );
+
+MyString& operator=(const char );
+
+operator const char() const;
+
+void operator=(Proxy p){
+        *this = (char)p;
+}
+};
+
 //kiír opertor
-std::ostream & operator << (std::ostream & , const MyString & );
+std::ostream & operator << (std::ostream &, const MyString & );
 //beolvas operator
-std::istream & operator >> (std::istream & , MyString & );
+std::istream & operator >> (std::istream &, MyString & );
 
 #endif
