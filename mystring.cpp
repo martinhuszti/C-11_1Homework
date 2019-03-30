@@ -25,13 +25,19 @@ Proxy::operator const char() const {
         return tmp;
 }
 
+
+void Proxy::operator=(const Proxy &p){
+        *this = (char)p;
+}
+
+Proxy::~Proxy(){
+        ms = nullptr;
+}
+
 Proxy& MyString::operator[](size_t index)  {
         auto p = new Proxy(this, index);
         return *p;
 }
-
-
-
 
 
 

@@ -103,17 +103,14 @@ size_t index;
 public:
 Proxy(MyString*, size_t );
 
-MyString& operator=(const char );
+MyString& operator=(const char);
 
 operator const char() const;
 
-void operator=(const Proxy &p){
-        *this = (char)p;
-}
+void operator=(const Proxy &p);
 
-~Proxy(){
-  ms = nullptr;
-}
+~Proxy();
+
 };
 
 
