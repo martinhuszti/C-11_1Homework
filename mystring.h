@@ -91,6 +91,10 @@ MyString operator + (const char * );
 
 };
 
+
+
+
+//1. szorgalmi
 class Proxy {
 private:
 MyString* ms;
@@ -103,10 +107,17 @@ MyString& operator=(const char );
 
 operator const char() const;
 
-void operator=(Proxy p){
+void operator=(const Proxy &p){
         *this = (char)p;
 }
+
+~Proxy(){
+  ms = nullptr;
+}
 };
+
+
+
 
 //kiír opertor
 std::ostream & operator << (std::ostream &, const MyString & );

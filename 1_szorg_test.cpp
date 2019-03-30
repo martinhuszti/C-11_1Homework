@@ -3,9 +3,9 @@
 
 #include "mystring.h"
 
-
+//1. szorgalmi teszt
 int main(int argc, char const *argv[]) {
-  
+
   MyString a = "hello";
   MyString b = a;
   std::cout << b[1];          /* e */

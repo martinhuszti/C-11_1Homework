@@ -2,7 +2,7 @@
 #include <cstring>
 #include "mystring.h"
 
-
+//1. szorgalmi
 Proxy::Proxy(MyString* ms, size_t index){
         this->ms = ms;
         this->index = index;
@@ -12,14 +12,26 @@ Proxy::Proxy(MyString* ms, size_t index){
 MyString& Proxy::operator=(const char c){
         MyString newString(ms->getString());
         newString.getString()[index] = c;
-        *ms=std::move(newString.getString());
-        return *ms;
+        *ms=newString.getString();
+        auto tmp = ms;
+        delete this;
+        return *tmp;
 
 }
 
 Proxy::operator const char() const {
-        return ms->getString()[index];
+        auto tmp= ms->getString()[index];
+        delete this;
+        return tmp;
 }
+
+Proxy& MyString::operator[](size_t index)  {
+        auto p = new Proxy(this, index);
+        return *p;
+}
+
+
+
 
 
 
@@ -88,7 +100,7 @@ MyString::MyString(MyString && other) noexcept {
 //move értékadás
 MyString & MyString::operator = (MyString && other) noexcept {
         if (this != &other) {
-                //std::cout << "\nmove értékadás meghívva\n";
+                std::cout << "\nmove értékadás meghívva\n";
                 decRef();
                 this->strvalue = other.strvalue;
                 other.strvalue = nullptr;
@@ -99,12 +111,6 @@ MyString & MyString::operator = (MyString && other) noexcept {
 MyString::~MyString() {
         this->decRef();
 }
-
-Proxy& MyString::operator[](size_t index)  {
-        auto p = new Proxy(this, index);
-        return *p;
-}
-
 
 
 //indexelő operator
