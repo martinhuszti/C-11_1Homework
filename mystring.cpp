@@ -34,6 +34,28 @@ Proxy MyString::operator[](size_t index)  {
 
 }
 
+void MyString::set_char_at(size_t index,const char c){
+  if (index >= length()) throw std::out_of_range("rossz indexelés");
+
+  if (strvalue->getRef_count() <= 1) {
+    strvalue->getStr()[index] = c;
+    return;
+  }
+  auto tempStr = getString();
+  decRef();
+  strvalue = new StringValue {
+          tempStr
+  };
+  strvalue->getStr()[index] = c;
+
+}
+
+const char MyString::get_char_at(size_t index) const{
+return strvalue->getStr()[index];
+
+}
+
+
 
 
 

@@ -63,27 +63,9 @@ MyString & operator = (MyString && ) noexcept;
 
 Proxy operator[](size_t);
 
-void set_char_at(size_t index,const char c){
-  if (index >= length()) throw std::out_of_range("rossz indexelés");
+void set_char_at(size_t index,const char c);
 
-  if (strvalue->getRef_count() <= 1) {
-    strvalue->getStr()[index] = c;
-    return;
-  }
-  auto tempStr = getString();
-  decRef();
-  strvalue = new StringValue {
-          tempStr
-  };
-  strvalue->getStr()[index] = c;
-
-}
-
-
-const char get_char_at(size_t index){
-return strvalue->getStr()[index];
-
-}
+const char get_char_at(size_t index) const ;
 
 
 //indexelő operator
