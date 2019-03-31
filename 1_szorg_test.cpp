@@ -12,7 +12,7 @@ int main(int argc, char const *argv[]) {
 
         a[1] = 'a';
         b[1] = b[4];
-        std::cout << a << " " << b; /* hallo hollo */
+        std::cout << a << " " << b << '\n'; /* hallo hollo */
 
         return 0;
 }

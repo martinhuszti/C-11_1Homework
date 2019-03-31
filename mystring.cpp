@@ -10,18 +10,13 @@ Proxy::Proxy(MyString* ms, size_t index){
 }
 
 MyString& Proxy::operator=(const char c){
-        MyString newString(ms->getString());
-        newString.getString()[index] = c;
-        *ms=newString.getString();
-        auto tmp = ms;
-        delete this;
-        return *tmp;
+        ms->set_char_at(index,c);
+        return *ms;
 
 }
 
 Proxy::operator const char() const {
-        auto tmp= ms->getString()[index];
-        delete this;
+        auto tmp = ms->get_char_at(index);
         return tmp;
 }
 
@@ -34,9 +29,9 @@ Proxy::~Proxy(){
         ms = nullptr;
 }
 
-Proxy& MyString::operator[](size_t index)  {
-        auto p = new Proxy(this, index);
-        return *p;
+Proxy MyString::operator[](size_t index)  {
+        return Proxy(this, index);
+
 }
 
 
