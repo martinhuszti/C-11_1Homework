@@ -15,7 +15,7 @@ int main(int argc, char const *argv[]) {
         std::cout << a << " " << b << '\n'; /* hallo hollo */
 
         MyString c = "helló világ";
-        MyString d = "hellós világ";
+        MyString d = "helló világ";
 
         MyString e1 = "";
         MyString e2 = "";
