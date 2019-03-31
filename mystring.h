@@ -2,6 +2,8 @@
 #define MYSTRING_H
 #include <cstdlib>
 #include <iostream>
+#include <map>
+
 
 
 class Proxy;
@@ -34,10 +36,16 @@ void decRef();
 class MyString {
 private:
 StringValue *strvalue;
+static std::map<const char*, StringValue*> StringKeresoFa;
 
 void decRef();
 
 public:
+//Szorgalmi 2 teszteléshez
+int getCount();
+
+void checkString(const char *chars);
+
 const size_t length() const;
 
 //kiíráshoz
@@ -65,7 +73,7 @@ Proxy operator[](size_t);
 
 void set_char_at(size_t index,const char c);
 
-const char get_char_at(size_t index) const ;
+const char get_char_at(size_t index) const;
 
 
 //indexelő operator

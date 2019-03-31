@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstring>
 #include "mystring.h"
+#include <map>
+
 
 //1. szorgalmi
 Proxy::Proxy(MyString* ms, size_t index){
@@ -35,27 +37,61 @@ Proxy MyString::operator[](size_t index)  {
 }
 
 void MyString::set_char_at(size_t index,const char c){
-  if (index >= length()) throw std::out_of_range("rossz indexelés");
+        if (index >= length()) throw std::out_of_range("rossz indexelés");
 
-  if (strvalue->getRef_count() <= 1) {
-    strvalue->getStr()[index] = c;
-    return;
-  }
-  auto tempStr = getString();
-  decRef();
-  strvalue = new StringValue {
-          tempStr
-  };
-  strvalue->getStr()[index] = c;
-
-}
-
-const char MyString::get_char_at(size_t index) const{
-return strvalue->getStr()[index];
+        if (strvalue->getRef_count() <= 1) {
+                strvalue->getStr()[index] = c;
+                return;
+        }
+        auto tempStr = getString();
+        decRef();
+        strvalue = new StringValue {
+                tempStr
+        };
+        strvalue->getStr()[index] = c;
 
 }
 
+const char MyString::get_char_at(size_t index) const {
+        return strvalue->getStr()[index];
 
+}
+
+
+//2. szorgalmi
+
+std::map<const char*, StringValue*> MyString::StringKeresoFa;
+
+int MyString::getCount(){
+        return strvalue->getRef_count();
+}
+
+void MyString::checkString(const char *chars){
+        auto search = StringKeresoFa.find(chars);
+        if (search != StringKeresoFa.end()) {
+                strvalue =search->second;
+                strvalue->incRef();
+        } else {
+                strvalue = new StringValue {chars};
+                StringKeresoFa.insert({chars,strvalue});
+        }
+}
+
+
+//üres konstruktor
+MyString::MyString() {
+        checkString("");
+}
+//értékadó konstruktor
+MyString::MyString(const char *chars) {
+        checkString(chars);
+}
+//másoló konstruktor
+MyString::MyString(const MyString & other) {
+        checkString(other.getString());
+}
+
+///////////////////////////////////////
 
 
 
@@ -90,6 +126,9 @@ void StringValue::decRef() {
 const size_t MyString::length() const {
         return strvalue->getSize();
 }
+
+
+
 void MyString::decRef() {
         if (strvalue == nullptr) return;
         strvalue->decRef();
@@ -102,18 +141,7 @@ void MyString::decRef() {
 char * MyString::getString() const {
         return strvalue->getStr();
 }
-//üres konstruktor
-MyString::MyString() : strvalue { new StringValue } {
-}
-//értékadó konstruktor
-MyString::MyString(const char *chars) {
-        strvalue = new StringValue {chars};
-}
-//másoló konstruktor
-MyString::MyString(const MyString & other) {
-        this->strvalue = other.strvalue;
-        strvalue->incRef();
-}
+
 //move konstruktor
 MyString::MyString(MyString && other) noexcept {
         std::cout << "\nmove konsturktor meghivva\n";
