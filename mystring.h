@@ -121,8 +121,6 @@ operator const char() const;
 
 void operator=(const Proxy &p);
 
-~Proxy();
-
 };
 
 

@@ -27,9 +27,6 @@ void Proxy::operator=(const Proxy &p){
         *this = (char)p;
 }
 
-Proxy::~Proxy(){
-        ms = nullptr;
-}
 
 Proxy MyString::operator[](size_t index)  {
         return Proxy(this, index);
