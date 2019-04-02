@@ -3,7 +3,7 @@
 
 #include "mystring.h"
 
-//1. szorgalmi teszt
+//1. szorgalmi teszt - elfogadva
 int main(int argc, char const *argv[]) {
 
         MyString a = "hello";
@@ -27,10 +27,10 @@ int main(int argc, char const *argv[]) {
 
 MyString s1 = helloka;
 MyString s2 = helloka;
-std::cout<<" Hello darabszam:"<< s2.getCount();
+std::cout<<" Helloka darabszam:"<< s2.getCount();
 
 std::cout <<" ures string darabszam:" << e5.getCount();
-        std::cout << c << '\n';
+        //std::cout << c << '\n';
         //std::cout << d << '\n';
 
         return 0;

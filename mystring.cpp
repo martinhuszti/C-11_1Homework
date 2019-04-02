@@ -5,7 +5,7 @@
 #include <string_view>
 
 
-//1. szorgalmi
+//1. szorgalmi - elfogadva
 Proxy::Proxy(MyString* ms, size_t index){
         this->ms = ms;
         this->index = index;
