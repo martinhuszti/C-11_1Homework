@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <string_view>
+
 
 
 
@@ -36,7 +38,7 @@ void decRef();
 class MyString {
 private:
 StringValue *strvalue;
-static std::map<const char*, StringValue*> StringKeresoFa;
+static std::map<std::string_view, StringValue*> StringKeresoFa;
 
 void decRef();
 

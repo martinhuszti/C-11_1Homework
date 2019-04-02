@@ -23,23 +23,13 @@ int main(int argc, char const *argv[]) {
         MyString e4 = "";
         MyString e5 = "";
 
-        MyString u1;
-        MyString u2;
-        MyString u3;
+        char helloka[] = "helloka";
 
+MyString s1 = helloka;
+MyString s2 = helloka;
+std::cout<<" Hello darabszam:"<< s2.getCount();
 
-        std::cout<< e5.getCount();
-        std::cout<< c.getCount();
-        std::cout<< d.getCount();
-
-        std::cout<< u1.getCount();
-        std::cout<< u2.getCount();
-        std::cout<< u3.getCount();
-
-
-
-
-
+std::cout <<" ures string darabszam:" << e5.getCount();
         std::cout << c << '\n';
         //std::cout << d << '\n';
 

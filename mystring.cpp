@@ -2,6 +2,7 @@
 #include <cstring>
 #include "mystring.h"
 #include <map>
+#include <string_view>
 
 
 //1. szorgalmi
@@ -57,7 +58,7 @@ const char MyString::get_char_at(size_t index) const {
 
 //2. szorgalmi
 
-std::map<const char*, StringValue*> MyString::StringKeresoFa;
+std::map<std::string_view, StringValue*> MyString::StringKeresoFa;
 
 int MyString::getCount(){
         return strvalue->getRef_count();
